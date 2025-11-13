@@ -7,7 +7,7 @@ import NavigationData from "../../utils/NavigationList";
 
 const Header = () => {
   return (
-    <header className="flex px-8 w-full h-16 items-center justify-space-between bg-gray-50 border-b border-gray-100">
+    <header className="sticky top-0 z-50 flex px-8 py-4 w-full h-auto items-center justify-space-between bg-gray-50 border-b border-gray-200">
       <div className="flex gap-6 w-full h-auto items-center justify-start">
         <Logo />
         <nav className="flex gap-5 items-center justify-center">

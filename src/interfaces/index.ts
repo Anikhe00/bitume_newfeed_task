@@ -18,6 +18,8 @@ export interface NewsCardProps {
 export interface NavLinkProps {
   to: string;
   children: ReactNode;
+  tab?: boolean;
+  active?: boolean;
 }
 
 export interface NavigationDataProps {
