@@ -19,3 +19,8 @@ export interface NavLinkProps {
   to: string;
   children: ReactNode;
 }
+
+export interface NavigationDataProps {
+  name: string;
+  href: string;
+}

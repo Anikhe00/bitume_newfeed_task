@@ -3,41 +3,15 @@ import NavLink from "../NavLink";
 import Search from "../Search";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import avatar from "../../assets/avatar.jpg";
-
-const navigation = [
-  {
-    name: "Top Stories",
-    href: "/",
-  },
-  {
-    name: "World",
-    href: "/about",
-  },
-  {
-    name: "Business",
-    href: "/contact",
-  },
-  {
-    name: "Technology",
-    href: "/contact",
-  },
-  {
-    name: "Sports",
-    href: "/contact",
-  },
-  {
-    name: "Arts",
-    href: "/contact",
-  },
-];
+import NavigationData from "../../utils/NavigationList";
 
 const Header = () => {
   return (
-    <header className="flex px-8 w-full h-16 items-center justify-space-between bg-white border-b border-gray-200">
+    <header className="flex px-8 w-full h-16 items-center justify-space-between bg-gray-50 border-b border-gray-100">
       <div className="flex gap-6 w-full h-auto items-center justify-start">
         <Logo />
         <nav className="flex gap-5 items-center justify-center">
-          {navigation.map((item) => (
+          {NavigationData.map((item) => (
             <NavLink key={item.name} to={item.href}>
               {item.name}
             </NavLink>
