@@ -6,3 +6,11 @@ export interface ButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
 }
+
+export interface NewsCardProps {
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  onClick?: () => void;
+}
