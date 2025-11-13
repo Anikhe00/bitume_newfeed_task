@@ -1,11 +1,12 @@
 import Button from "./components/Button";
 import NewsCard from "./components/NewsCard";
+import Header from "./components/layout/Header";
 import Image from "./assets/uppsala university.jpg";
 
 const App = () => {
   return (
-    <div className="h-dvh w-full flex flex-col gap-6 items-center justify-center">
-      <p className="font-bold text-blue-500">Welcome to Bitume Task</p>
+    <div className="h-dvh w-full flex flex-col gap-6 items-center justify-start">
+      <Header />
       <NewsCard
         title="Tech Giants Unveil New Innovations"
         description="Leading tech companies showcased groundbreaking technologies at a recent conference."

@@ -14,3 +14,8 @@ export interface NewsCardProps {
   image: string;
   onClick?: () => void;
 }
+
+export interface NavLinkProps {
+  to: string;
+  children: ReactNode;
+}
