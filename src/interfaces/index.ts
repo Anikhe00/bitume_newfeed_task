@@ -9,6 +9,7 @@ export interface ButtonProps {
 
 export interface NewsCardProps {
   title: string;
+  category?: string;
   description: string;
   date?: string;
   image: string;
@@ -25,4 +26,18 @@ export interface NavLinkProps {
 export interface NavigationDataProps {
   name: string;
   href: string;
+}
+
+export interface ArticleContentProps {
+  category: string;
+  title: string;
+  author: string;
+  published_date: string;
+  image: string;
+  content: string;
+}
+
+export interface StatProps {
+  value: string;
+  icon: React.FC;
 }

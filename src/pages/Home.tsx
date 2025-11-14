@@ -5,6 +5,7 @@ import type { NavigationDataProps } from "../interfaces";
 import NewsCard from "../components/NewsCard";
 import Image from "../assets/uppsala.jpg";
 import TrendingCard from "../components/TrendingCard";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -41,12 +42,14 @@ const Home = () => {
         </h2>
 
         <div className="grid grid-cols-3 gap-4">
-          <NewsCard
-            title="Tech Giants Unveil New Innovations"
-            description="Leading tech companies announce new innovations in their respective fields."
-            date="Oct 1, 2023"
-            image={Image}
-          />
+          <Link to={"/article"}>
+            <NewsCard
+              title="Tech Giants Unveil New Innovations"
+              description="Leading tech companies announce new innovations in their respective fields."
+              date="Oct 1, 2023"
+              image={Image}
+            />
+          </Link>
           <NewsCard
             title="Global Tech Summit Highlights Cutting-Edge Innovations"
             description="A global tech summit highlights the latest innovations in the industry."
