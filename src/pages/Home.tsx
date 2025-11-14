@@ -4,6 +4,7 @@ import Search from "../components/Search";
 import type { NavigationDataProps } from "../interfaces";
 import NewsCard from "../components/NewsCard";
 import Image from "../assets/uppsala.jpg";
+import TrendingCard from "../components/TrendingCard";
 
 const Home = () => {
   return (
@@ -27,13 +28,17 @@ const Home = () => {
       </div>
 
       {/* Trending News */}
-      <div className="w-full h-100 bg-blue-400 rounded-xl"></div>
+      <TrendingCard
+        title="Breaking: Major Political Event Unfolds"
+        description="A major political event is unfolding, with significant changes expected."
+        image={Image}
+      />
 
       {/* Recent Articles */}
       <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
-        <h1 className="text-2xl font-libre font-bold text-gray-800">
+        <h2 className="text-2xl font-libre font-bold text-gray-800">
           Recent Articles
-        </h1>
+        </h2>
 
         <div className="grid grid-cols-3 gap-4">
           <NewsCard

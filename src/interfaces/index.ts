@@ -10,7 +10,7 @@ export interface ButtonProps {
 export interface NewsCardProps {
   title: string;
   description: string;
-  date: string;
+  date?: string;
   image: string;
   onClick?: () => void;
 }
