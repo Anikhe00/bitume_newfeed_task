@@ -1,27 +1,28 @@
-import type { NewsCardProps } from "../interfaces";
+import type { Article } from "../interfaces";
 import Button from "./Button";
 
 const TrendingCard = ({
-  title,
-  description,
+  article,
   onClick,
-  image,
-}: NewsCardProps) => {
+}: {
+  article: Article;
+  onClick: () => void;
+}) => {
   return (
     <article
-      className="relative flex flex-col p-8 items-start justify-end w-full h-120 bg-cover bg-center bg-no-repeat rounded-xl"
+      className="relative flex flex-col py-8 pl-8 pr-16 items-start justify-end w-full h-140 bg-cover bg-center bg-no-repeat rounded-xl"
       style={{
-        backgroundImage: `url(${image})`,
+        backgroundImage: `url(${article.urlToImage})`,
       }}
     >
       <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
       <div className="flex z-10 relative flex-col gap-4 items-start justify-end">
         <h1 className="text-5xl leading-[120%] font-libre font-bold text-white">
-          {title}
+          {article.title}
         </h1>
         <p className="text-md font-libre font-medium text-white">
-          {description}
+          {article.description}
         </p>
         <Button
           onClick={onClick}

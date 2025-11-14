@@ -1,87 +1,128 @@
-import NavLink from "../components/NavLink";
-import NavigationData from "../utils/NavigationList";
+import CategoryFilter from "../components/CategoryFilter";
 import Search from "../components/Search";
-import type { NavigationDataProps } from "../interfaces";
 import NewsCard from "../components/NewsCard";
-import Image from "../assets/uppsala.jpg";
 import TrendingCard from "../components/TrendingCard";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+const API_KEY = import.meta.env.VITE_API_KEY;
+const COUNTRY = "us";
+
+interface Article {
+  source: { id: string | null; name: string };
+  author: string | null;
+  title: string;
+  description: string | null;
+  url: string;
+  urlToImage: string | null;
+  publishedAt: string;
+}
+
+const categories = [
+  "general",
+  "business",
+  "entertainment",
+  "health",
+  "science",
+  "sports",
+  "technology",
+];
 
 const Home = () => {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
+  const [category, setCategory] = useState<string>("general");
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchNews = async (search?: string, cat?: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      let url = "";
+
+      if (search) {
+        url = `https://newsapi.org/v2/everything?q=${search}&language=en&apiKey=${API_KEY}`;
+      } else {
+        url = `https://newsapi.org/v2/top-headlines?country=${COUNTRY}&category=${
+          cat || category
+        }&apiKey=${API_KEY}`;
+      }
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.status !== "ok")
+        throw new Error(data.message || "Failed to fetch");
+
+      setArticles(data.articles);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+    fetchNews(value, category);
+  };
+
+  const articlesWithImage = articles.filter((article) => article.urlToImage);
+
   return (
     <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
       {/* Search Bar */}
       <Search
         placeholder="Search for news, topics..."
         className="h-13 border border-gray-200 bg-white"
+        onSearch={handleSearch}
       />
 
       {/* Tabs */}
-      <div className="flex gap-2 items-center justify-start">
-        <NavLink to={"/"} tab={true} active={true}>
-          All
-        </NavLink>
-        {NavigationData.map((item: NavigationDataProps) => (
-          <NavLink to={item.href} tab={true} active={false}>
-            {item.name}
-          </NavLink>
-        ))}
-      </div>
-
-      {/* Trending News */}
-      <TrendingCard
-        title="Breaking: Major Political Event Unfolds"
-        description="A major political event is unfolding, with significant changes expected."
-        image={Image}
+      <CategoryFilter
+        categories={categories}
+        value={category}
+        onChange={setCategory}
       />
 
-      {/* Recent Articles */}
-      <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
-        <h2 className="text-2xl font-libre font-bold text-gray-800">
-          Recent Articles
-        </h2>
-
-        <div className="grid grid-cols-3 gap-4">
-          <Link to={"/article"}>
-            <NewsCard
-              title="Tech Giants Unveil New Innovations"
-              description="Leading tech companies announce new innovations in their respective fields."
-              date="Oct 1, 2023"
-              image={Image}
+      <>
+        {loading ? (
+          <p className="h-dvh text-gray-500 font-libre text-sm">Loading...</p>
+        ) : error ? (
+          <p className="text-red-500 font-libre text-sm">{error}</p>
+        ) : articles.length === 0 ? (
+          <p className="text-gray-500 font-libre text-sm">No articles found.</p>
+        ) : (
+          <>
+            {/* Trending News */}
+            <TrendingCard
+              article={articlesWithImage[0]}
+              onClick={() => console.log("Read More Clicked")}
             />
-          </Link>
-          <NewsCard
-            title="Global Tech Summit Highlights Cutting-Edge Innovations"
-            description="A global tech summit highlights the latest innovations in the industry."
-            date="Oct 1, 2023"
-            image={Image}
-          />
-          <NewsCard
-            title="AI Revolutionizes Healthcare with Predictive Analytics"
-            description="Artificial intelligence is transforming healthcare by enabling predictive analytics for better patient outcomes."
-            date="Oct 1, 2023"
-            image={Image}
-          />
-          <NewsCard
-            title="Global Tech Summit Highlights Cutting-Edge Innovations"
-            description="A global tech summit highlights the latest innovations in the industry."
-            date="Oct 1, 2023"
-            image={Image}
-          />
-          <NewsCard
-            title="AI Revolutionizes Healthcare with Predictive Analytics"
-            description="Artificial intelligence is transforming healthcare by enabling predictive analytics for better patient outcomes."
-            date="Oct 1, 2023"
-            image={Image}
-          />
-          <NewsCard
-            title="AI Revolutionizes Healthcare with Predictive Analytics"
-            description="Artificial intelligence is transforming healthcare by enabling predictive analytics for better patient outcomes."
-            date="Oct 1, 2023"
-            image={Image}
-          />
-        </div>
-      </div>
+
+            {/* Recent Articles */}
+            <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
+              <h2 className="text-2xl font-libre font-bold text-gray-800">
+                Recent Articles
+              </h2>
+
+              <div className="grid grid-cols-3 gap-4">
+                {articles.map((article, index) => (
+                  <Link to={"/article"} key={article.url}>
+                    <NewsCard key={index} article={article} />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </>
     </div>
   );
 };

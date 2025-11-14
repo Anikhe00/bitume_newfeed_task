@@ -17,7 +17,7 @@ export interface NewsCardProps {
 }
 
 export interface NavLinkProps {
-  to: string;
+  to?: string;
   children: ReactNode;
   tab?: boolean;
   active?: boolean;
@@ -40,4 +40,14 @@ export interface ArticleContentProps {
 export interface StatProps {
   value: string;
   icon: React.FC;
+}
+
+export interface Article {
+  source: { id: string | null; name: string };
+  author: string | null;
+  title: string;
+  description: string | null;
+  url: string;
+  urlToImage: string | null;
+  publishedAt: string;
 }
