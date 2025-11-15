@@ -21,6 +21,7 @@ export interface NavLinkProps {
   children: ReactNode;
   tab?: boolean;
   active?: boolean;
+  className?: string;
 }
 
 export interface NavigationDataProps {

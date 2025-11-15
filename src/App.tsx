@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import ArticlePage from "./pages/ArticlePage";
+import SearchResults from "./pages/SearchPage";
 
 import Layout from "./components/layout/Layout";
 
@@ -21,6 +22,14 @@ const App = () => {
         element={
           <Layout>
             <ArticlePage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/search"
+        element={
+          <Layout>
+            <SearchResults />
           </Layout>
         }
       />
