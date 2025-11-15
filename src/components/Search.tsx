@@ -1,6 +1,6 @@
 import { HiOutlineSearch } from "react-icons/hi";
 import classNames from "classnames";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 
 const Search = ({
@@ -10,7 +10,7 @@ const Search = ({
 }: {
   placeholder: string;
   className?: string;
-  onSearch: (query: string) => void;
+  onSearch?: (query: string) => void;
 }) => {
   const [value, setValue] = useState("");
   const searchClassName = className
@@ -20,16 +20,18 @@ const Search = ({
       )
     : "flex gap-2 items-center justify-start w-full h-10 px-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2";
 
-  const debouncedSearch = debounce((query: string) => {
-    if (query.length >= 3) {
-      onSearch(query);
-    } else {
-      onSearch("");
-    }
-  }, 400);
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((query: string) => {
+        if (onSearch) {
+          if (query.length >= 3) onSearch(query);
+          else onSearch("");
+        }
+      }, 400),
+    [onSearch]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     const query = e.target.value;
     setValue(query);
     debouncedSearch(query);

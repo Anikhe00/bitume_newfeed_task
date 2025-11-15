@@ -14,7 +14,10 @@ const Header = () => {
 
   const handleGlobalSearch = (value: string) => {
     if (value.trim().length >= 3) {
-      navigate(`/search?q=${value}`);
+      // Navigate to Home with query param
+      navigate(`/?q=${encodeURIComponent(value.trim())}`);
+    } else if (value.trim() === "") {
+      navigate("/");
     }
   };
 
@@ -57,8 +60,15 @@ const Header = () => {
       </header>
 
       {isMenuOpen && (
-        <aside className="fixed inset-0 bg-black/70 z-50 flex justify-end">
-          <div className="flex flex-col w-11/12 h-full bg-white gap-6">
+        <aside
+          className="fixed backdrop-blur-sm transition-opacity duration-300 inset-0 bg-black/70 z-50 flex justify-end"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <div
+            className={`absolute top-0 right-0 h-full w-11/12 bg-white shadow-xl flex flex-col gap-6
+        transform transition-transform duration-300 ease-in-out
+        ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+          >
             {/* Logo and Close Button */}
             <div
               className="flex gap-6 py-4 items-center justify-between px-5 md:px-8 border-b border-gray-200"
