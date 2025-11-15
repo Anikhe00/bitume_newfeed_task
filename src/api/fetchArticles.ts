@@ -1,7 +1,6 @@
 import type { Article } from "../interfaces";
 
-// const API_KEY = import.meta.env.VITE_API_KEY;
-const API_KEY = "d43a591b38ae4f49b13e89f722f903d9";
+const API_KEY = import.meta.env.VITE_API_KEY;
 const COUNTRY = "us";
 
 interface FetchArticlesParams {
@@ -43,7 +42,8 @@ export const fetchArticles = async ({
     if (data.status !== "ok") {
       throw new Error(data.message || "Failed to fetch articles");
     }
-
+    console.log("API KEY in production:", API_KEY);
+    console.log("NEWSAPI RAW RESPONSE:", data);
     return data.articles;
   } catch (err: any) {
     console.error(err);
