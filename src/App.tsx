@@ -17,7 +17,7 @@ const App = () => {
         }
       />
       <Route
-        path="/article"
+        path="/article/:slug"
         element={
           <Layout>
             <Article />

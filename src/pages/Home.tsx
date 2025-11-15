@@ -73,8 +73,13 @@ const Home = () => {
     fetchNews(value, category);
   };
 
-  const articlesWithImage = articles.filter((article) => article.urlToImage);
+  // Find the first article with an image for TrendingCard
+  const trendingArticle = articles.find((article) => article.urlToImage);
 
+  // All remaining articles excluding the trending one
+  const newsArticles = articles.filter(
+    (article) => article !== trendingArticle
+  );
   return (
     <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
       {/* Search Bar */}
@@ -95,14 +100,16 @@ const Home = () => {
         {loading ? (
           <p className="h-dvh text-gray-500 font-libre text-sm">Loading...</p>
         ) : error ? (
-          <p className="text-red-500 font-libre text-sm">{error}</p>
+          <p className="h-dvh text-red-500 font-libre text-sm">{error}</p>
         ) : articles.length === 0 ? (
-          <p className="text-gray-500 font-libre text-sm">No articles found.</p>
+          <p className="h-dvh text-gray-500 font-libre text-sm">
+            No articles found.
+          </p>
         ) : (
           <>
             {/* Trending News */}
             <TrendingCard
-              article={articlesWithImage[0]}
+              article={trendingArticle || articles[0]}
               onClick={() => console.log("Read More Clicked")}
             />
 
@@ -113,8 +120,12 @@ const Home = () => {
               </h2>
 
               <div className="grid grid-cols-3 gap-4">
-                {articles.map((article, index) => (
-                  <Link to={"/article"} key={article.url}>
+                {newsArticles.map((article, index) => (
+                  <Link
+                    to={`/article/${encodeURIComponent(article.url)}`}
+                    state={{ article, articles }}
+                    key={article.url}
+                  >
                     <NewsCard key={index} article={article} />
                   </Link>
                 ))}

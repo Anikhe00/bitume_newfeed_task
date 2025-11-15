@@ -50,4 +50,5 @@ export interface Article {
   url: string;
   urlToImage: string | null;
   publishedAt: string;
+  content?: string;
 }

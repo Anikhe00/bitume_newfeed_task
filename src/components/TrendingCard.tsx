@@ -15,13 +15,13 @@ const TrendingCard = ({
         backgroundImage: `url(${article.urlToImage})`,
       }}
     >
-      <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
+      <div className="absolute inset-0 bg-black/60 rounded-xl"></div>
 
       <div className="flex z-10 relative flex-col gap-4 items-start justify-end">
-        <h1 className="text-5xl leading-[120%] font-libre font-bold text-white">
+        <h1 className="text-[42px] leading-[120%] font-libre font-bold text-white">
           {article.title}
         </h1>
-        <p className="text-md font-libre font-medium text-white">
+        <p className="text-md font-libre font-normal text-white/90">
           {article.description}
         </p>
         <Button
