@@ -2,7 +2,7 @@ import CategoryFilter from "../components/CategoryFilter";
 import Search from "../components/Search";
 import NewsCard from "../components/NewsCard";
 import TrendingCard from "../components/TrendingCard";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -29,10 +29,9 @@ const categories = [
 ];
 
 const Home = () => {
-  const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("q") || "";
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
   const [category, setCategory] = useState<string>("general");
   const [error, setError] = useState<string | null>(null);
 
@@ -64,20 +63,15 @@ const Home = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchNews();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [category]);
-
-  // const handleSearch = (value: string) => {
-  //   setQuery(value);
-  //   fetchNews(value, category);
-  // };
-
   useEffect(() => {
-    fetchNews(searchQuery, category);
+    fetchNews();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, category]);
+  }, [category]);
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+    fetchNews(value, category);
+  };
 
   // Find the first article with an image for TrendingCard
   const trendingArticle = articles.find((article) => article.urlToImage);
@@ -92,7 +86,7 @@ const Home = () => {
       <Search
         placeholder="Search for news, topics..."
         className="h-12 md:h-12 lg:h-13 border border-gray-200 bg-white"
-        onSearch={(query) => fetchNews(query, category)}
+        onSearch={handleSearch}
       />
 
       {/* Tabs */}
