@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import type { Article } from "../interfaces";
-import { fetchArticles } from "../api/fetchArticles";
 import NewsCard from "../components/NewsCard";
+import { fetchArticles } from "../api/fetchArticles";
 
 const Category = () => {
   const { categoryName } = useParams<{ categoryName: string }>();
@@ -19,10 +19,7 @@ const Category = () => {
     refetch,
   } = useQuery<Article[]>({
     queryKey: ["category", safeCategory],
-    queryFn: () =>
-      fetchArticles({
-        category: safeCategory.toLowerCase(),
-      }),
+    queryFn: () => fetchArticles({ category: safeCategory }),
     staleTime: 1000 * 60 * 5,
   });
 

@@ -13,7 +13,7 @@ interface FetchArticlesParams {
 export const fetchArticles = async ({
   category,
   search,
-  pageSize = 20,
+  pageSize = 40,
   page = 1,
 }: FetchArticlesParams = {}): Promise<Article[]> => {
   try {
@@ -42,8 +42,6 @@ export const fetchArticles = async ({
     if (!data.articles || !Array.isArray(data.articles)) {
       throw new Error("No articles returned from API");
     }
-
-    console.log("GNEWS RAW RESPONSE:", data);
 
     // Map GNews articles to your Article type if needed
     return data.articles.map((a: any) => ({

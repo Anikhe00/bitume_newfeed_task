@@ -16,7 +16,7 @@ const SearchResults = () => {
   } = useQuery<Article[]>({
     queryKey: ["search", query],
     queryFn: () => fetchArticles({ search: query }),
-    enabled: query.length >= 3, // only fetch if query >= 3 letters
+    enabled: query.length >= 3,
     staleTime: 1000 * 60 * 5,
   });
 
