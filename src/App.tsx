@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Article from "./pages/Article";
+import ArticlePage from "./pages/ArticlePage";
 
 import Layout from "./components/layout/Layout";
 
@@ -20,7 +20,7 @@ const App = () => {
         path="/article/:slug"
         element={
           <Layout>
-            <Article />
+            <ArticlePage />
           </Layout>
         }
       />

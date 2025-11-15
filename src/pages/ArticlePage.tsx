@@ -1,14 +1,10 @@
 import ArticleContent from "../components/ArticleContent";
-import Stat from "../components/Stat";
-import { TiHeartOutline } from "react-icons/ti";
-import { BiComment } from "react-icons/bi";
-import { FiBookmark } from "react-icons/fi";
-import { LuShare2 } from "react-icons/lu";
 import ArticleCard from "../components/ArticleCard";
 import { useLocation } from "react-router-dom";
 import type { Article } from "../interfaces";
+import { Link } from "react-router-dom";
 
-const Article = () => {
+const ArticlePage = () => {
   const location = useLocation();
   const article = location.state?.article as Article | null;
   const articles = location.state?.articles as Article[] | null;
@@ -38,14 +34,6 @@ const Article = () => {
     <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
       {article && <ArticleContent article={article} />}
 
-      {/* Stats */}
-      <div className="w-full flex flex-row py-4 border-t border-b border-gray-200 gap-4 items-center justify-center">
-        <Stat value="1.2k" icon={TiHeartOutline} />
-        <Stat value="34" icon={BiComment} />
-        <Stat value="Save" icon={FiBookmark} />
-        <Stat value="Share" icon={LuShare2} />
-      </div>
-
       {/* Related Articles */}
       {article && (
         <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
@@ -54,7 +42,13 @@ const Article = () => {
           </h2>
           <div className="grid grid-cols-2 gap-6">
             {relatedArticles.map((a) => (
-              <ArticleCard article={a} key={a.url} />
+              <Link
+                to={`/article/${encodeURIComponent(a.url)}`}
+                state={{ article: a, articles }}
+                key={a.url}
+              >
+                <ArticleCard article={a} key={a.url} />
+              </Link>
             ))}
           </div>
         </div>
@@ -63,4 +57,4 @@ const Article = () => {
   );
 };
 
-export default Article;
+export default ArticlePage;
