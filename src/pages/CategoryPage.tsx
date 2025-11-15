@@ -7,8 +7,10 @@ import NewsCard from "../components/NewsCard";
 const Category = () => {
   const { categoryName } = useParams<{ categoryName: string }>();
 
+  const safeCategory = categoryName?.toLowerCase() || "general";
+
   const formattedCategory =
-    categoryName?.charAt(0).toUpperCase() + categoryName?.slice(1) || "General";
+    safeCategory?.charAt(0).toUpperCase() + categoryName?.slice(1) || "General";
 
   const {
     data: articles = [],
@@ -16,10 +18,10 @@ const Category = () => {
     isError,
     refetch,
   } = useQuery<Article[]>({
-    queryKey: ["category", categoryName],
+    queryKey: ["category", safeCategory],
     queryFn: () =>
       fetchArticles({
-        category: (categoryName || "general").toLowerCase(),
+        category: safeCategory.toLowerCase(),
       }),
     staleTime: 1000 * 60 * 5,
   });

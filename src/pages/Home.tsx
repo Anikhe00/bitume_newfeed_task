@@ -31,7 +31,7 @@ const Home = () => {
   } = useQuery<Article[]>({
     queryKey: ["articles", category, query],
     queryFn: () => fetchArticles({ category, search: query }),
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
     staleTime: 1000 * 60 * 5,
   });
 
