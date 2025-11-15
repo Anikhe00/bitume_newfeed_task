@@ -3,20 +3,10 @@ import Search from "../components/Search";
 import NewsCard from "../components/NewsCard";
 import TrendingCard from "../components/TrendingCard";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-
-const API_KEY = import.meta.env.VITE_API_KEY;
-const COUNTRY = "us";
-
-interface Article {
-  source: { id: string | null; name: string };
-  author: string | null;
-  title: string;
-  description: string | null;
-  url: string;
-  urlToImage: string | null;
-  publishedAt: string;
-}
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchArticles } from "../api/fetchArticles";
+import type { Article } from "../interfaces";
 
 const categories = [
   "general",
@@ -29,118 +19,106 @@ const categories = [
 ];
 
 const Home = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>("");
-  const [category, setCategory] = useState<string>("general");
-  const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("general");
 
-  const fetchNews = async (search?: string, cat?: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      let url = "";
+  // Fetch articles with React Query
+  const {
+    data: articles = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<Article[]>({
+    queryKey: ["articles", category, query],
+    queryFn: () => fetchArticles({ category, search: query }),
+    keepPreviousData: true,
+    staleTime: 1000 * 60 * 5,
+  });
 
-      if (search) {
-        url = `https://newsapi.org/v2/everything?q=${search}&language=en&apiKey=${API_KEY}`;
-      } else {
-        url = `https://newsapi.org/v2/top-headlines?country=${COUNTRY}&category=${
-          cat || category
-        }&apiKey=${API_KEY}`;
-      }
-
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (data.status !== "ok")
-        throw new Error(data.message || "Failed to fetch");
-
-      setArticles(data.articles);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchNews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category]);
+  // Trending article (first with image)
+  const trendingArticle = articles.find((a) => a.urlToImage);
+  const newsArticles = articles.filter((a) => a !== trendingArticle);
 
   const handleSearch = (value: string) => {
     setQuery(value);
-    fetchNews(value, category);
+    refetch();
   };
 
-  // Find the first article with an image for TrendingCard
-  const trendingArticle = articles.find((article) => article.urlToImage);
-
-  // All remaining articles excluding the trending one
-  const newsArticles = articles.filter(
-    (article) => article !== trendingArticle
-  );
   return (
-    <div className="w-full h-auto flex flex-col gap-6 md:gap-8 lg:gap-8 items-start justify-start">
-      {/* Search Bar */}
+    <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-8">
       <Search
         placeholder="Search for news, topics..."
         className="h-12 md:h-12 lg:h-13 border border-gray-200 bg-white"
         onSearch={handleSearch}
       />
 
-      {/* Tabs */}
       <CategoryFilter
         categories={categories}
         value={category}
         onChange={setCategory}
       />
 
-      <>
-        {loading ? (
-          <p className="h-dvh text-gray-500 font-libre text-sm">Loading...</p>
-        ) : error ? (
-          <p className="h-dvh text-red-500 font-libre text-sm">{error}</p>
-        ) : articles.length === 0 ? (
-          <p className="h-dvh text-gray-500 font-libre text-sm">
-            No articles found.
-          </p>
-        ) : (
-          <>
-            {/* Trending News */}
-            <Link
-              to={`/article/${encodeURIComponent(
-                trendingArticle?.url || articles[0].url
-              )}`}
-              state={{ article: trendingArticle || articles[0], articles }}
-            >
-              <TrendingCard
-                article={trendingArticle || articles[0]}
-                onClick={() => {}}
-              />
-            </Link>
+      {isLoading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="h-60 bg-gray-200 animate-pulse rounded-lg"
+            />
+          ))}
+        </div>
+      )}
 
-            {/* Recent Articles */}
-            <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
-              <h2 className="lg:text-2xl md:text-xl text-lg font-libre font-bold text-gray-800">
-                Recent Articles
-              </h2>
+      {isError && (
+        <div>
+          <p className="text-red-500">Failed to load articles.</p>
+          <button
+            onClick={() => refetch()}
+            className="text-blue-600 underline mt-2"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6">
-                {newsArticles.map((article, index) => (
-                  <Link
-                    to={`/article/${encodeURIComponent(article.url)}`}
-                    state={{ article, articles }}
-                    key={article.url}
-                  >
-                    <NewsCard key={index} article={article} />
-                  </Link>
-                ))}
-              </div>
+      {!isLoading && !isError && articles.length === 0 && (
+        <p className="text-gray-500">No articles found.</p>
+      )}
+
+      {!isLoading && !isError && articles.length > 0 && (
+        <>
+          {/* Trending Article */}
+          <Link
+            to={`/article/${encodeURIComponent(
+              trendingArticle?.url || articles[0].url
+            )}`}
+            state={{ article: trendingArticle || articles[0], articles }}
+          >
+            <TrendingCard
+              article={trendingArticle || articles[0]}
+              onClick={() => {}}
+            />
+          </Link>
+
+          {/* Recent Articles */}
+          <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
+            <h2 className="lg:text-2xl md:text-xl text-lg font-libre font-bold text-gray-800">
+              Recent Articles
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {newsArticles.map((article) => (
+                <Link
+                  key={article.url}
+                  to={`/article/${encodeURIComponent(article.url)}`}
+                  state={{ article, articles }}
+                >
+                  <NewsCard article={article} />
+                </Link>
+              ))}
             </div>
-          </>
-        )}
-      </>
+          </div>
+        </>
+      )}
     </div>
   );
 };

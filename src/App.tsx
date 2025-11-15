@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ArticlePage from "./pages/ArticlePage";
 import SearchResults from "./pages/SearchPage";
+import Category from "./pages/CategoryPage";
 
 import Layout from "./components/layout/Layout";
 
@@ -14,6 +15,14 @@ const App = () => {
         element={
           <Layout>
             <Home />
+          </Layout>
+        }
+      />
+      <Route
+        path="/category/:categoryName"
+        element={
+          <Layout>
+            <Category />
           </Layout>
         }
       />

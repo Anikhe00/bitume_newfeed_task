@@ -1,5 +1,5 @@
 import Logo from "../Logo";
-import NavLink from "../NavLink";
+import { NavLink as RouterNavLink } from "react-router-dom";
 import Search from "../Search";
 import avatar from "../../assets/avatar.jpg";
 import NavigationData from "../../utils/NavigationList";
@@ -18,6 +18,22 @@ const Header = () => {
     }
   };
 
+  const renderNavLinks = (isMobile = false) =>
+    NavigationData.map((item) => (
+      <RouterNavLink
+        key={item.name}
+        to={item.href}
+        className={({ isActive }) =>
+          isActive
+            ? "text-blue-500 text-sm font-libre font-medium p-3 md:p-3 lg:p-0"
+            : "text-gray-500 text-sm font-libre hover:text-blue-500 p-3 md:p-3 lg:p-0"
+        }
+        onClick={() => isMobile && setIsMenuOpen(false)}
+      >
+        {item.name}
+      </RouterNavLink>
+    ));
+
   return (
     <>
       {/* Main Header */}
@@ -26,11 +42,7 @@ const Header = () => {
         <div className="flex gap-6 w-full h-auto items-center justify-start">
           <Logo />
           <nav className="hidden lg:flex gap-5 items-center justify-center">
-            {NavigationData.map((item) => (
-              <NavLink key={item.name} to={item.href}>
-                {item.name}
-              </NavLink>
-            ))}
+            {renderNavLinks()}
           </nav>
         </div>
 
@@ -85,15 +97,7 @@ const Header = () => {
 
               {/* Links */}
               <nav className="flex flex-col px-5 md:px-8 items-start justify-center">
-                {NavigationData.map((item) => (
-                  <NavLink
-                    key={item.name}
-                    to={item.href}
-                    className="px-3 py-4 text-base"
-                  >
-                    {item.name}
-                  </NavLink>
-                ))}
+                {renderNavLinks()}
               </nav>
             </div>
           </div>
