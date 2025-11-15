@@ -1,6 +1,7 @@
 import type { Article } from "../interfaces";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+// const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = "d43a591b38ae4f49b13e89f722f903d9";
 const COUNTRY = "us";
 
 interface FetchArticlesParams {
