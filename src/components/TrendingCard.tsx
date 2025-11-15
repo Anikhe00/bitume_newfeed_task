@@ -21,7 +21,7 @@ const TrendingCard = ({
         <h1 className="lg:text-[42px] md:text-4xl text-xl leading-[120%] font-libre font-bold text-white">
           {article.title}
         </h1>
-        <p className="lg:text-md md:text-sm text-xs font-libre font-normal text-white/90">
+        <p className="lg:text-md md:text-sm text-xs font-libre font-normal text-white/90 line-clamp-2">
           {article.description}
         </p>
         <Button

@@ -21,7 +21,7 @@ const SearchResults = () => {
   });
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="max-w-[1200px] w-full flex flex-col gap-8">
       <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
         Search results for: "{query}"
       </h1>

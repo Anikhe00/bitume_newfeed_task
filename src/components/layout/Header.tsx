@@ -1,7 +1,6 @@
 import Logo from "../Logo";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import Search from "../Search";
-import avatar from "../../assets/avatar.jpg";
 import NavigationData from "../../utils/NavigationList";
 import { CgMenuLeftAlt } from "react-icons/cg";
 import { CgClose } from "react-icons/cg";
@@ -47,16 +46,8 @@ const Header = () => {
         </div>
 
         {/* Search and Notification */}
-        <div className="hidden w-[480px] h-auto lg:flex items-center justify-center gap-4 ">
+        <div className="hidden w-[280px] h-auto lg:flex items-center justify-center gap-4 ">
           <Search placeholder="Search" onSearch={handleGlobalSearch} />
-          {/* Avatar */}
-          <div className="flex flex-none items-center justify-center w-8 h-8 rounded-full overflow-hidden">
-            <img
-              className="h-full w-full rounded-full object-cover object-top"
-              src={avatar}
-              alt="avatar"
-            />
-          </div>
         </div>
 
         {/* Mobile and Tablet Menu Button */}

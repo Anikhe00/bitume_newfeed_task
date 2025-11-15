@@ -1,7 +1,7 @@
 import type { Article } from "../interfaces";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-const COUNTRY = "us";
+const BASE_URL = "https://gnews.io/api/v4";
 
 interface FetchArticlesParams {
   category?: string;
@@ -21,14 +21,14 @@ export const fetchArticles = async ({
 
     if (search && search.trim() !== "") {
       // Search endpoint
-      url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(
+      url = `${BASE_URL}/search?q=${encodeURIComponent(
         search
-      )}&language=en&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY}`;
+      )}&lang=en&max=${pageSize}&page=${page}&apikey=${API_KEY}`;
     } else {
       // Top headlines by category
-      url = `https://newsapi.org/v2/top-headlines?country=${COUNTRY}&category=${
+      url = `${BASE_URL}/top-headlines?category=${
         category || "general"
-      }&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY}`;
+      }&lang=en&max=${pageSize}&page=${page}&apikey=${API_KEY}`;
     }
 
     const res = await fetch(url);
@@ -39,12 +39,23 @@ export const fetchArticles = async ({
 
     const data = await res.json();
 
-    if (data.status !== "ok") {
-      throw new Error(data.message || "Failed to fetch articles");
+    if (!data.articles || !Array.isArray(data.articles)) {
+      throw new Error("No articles returned from API");
     }
-    console.log("API KEY in production:", API_KEY);
-    console.log("NEWSAPI RAW RESPONSE:", data);
-    return data.articles;
+
+    console.log("GNEWS RAW RESPONSE:", data);
+
+    // Map GNews articles to your Article type if needed
+    return data.articles.map((a: any) => ({
+      source: { id: null, name: a.source.name },
+      author: null,
+      title: a.title,
+      description: a.description,
+      url: a.url,
+      urlToImage: a.image,
+      publishedAt: a.publishedAt,
+      content: a.content,
+    }));
   } catch (err: any) {
     console.error(err);
     return [];

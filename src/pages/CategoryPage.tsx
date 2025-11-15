@@ -27,7 +27,7 @@ const Category = () => {
   });
 
   return (
-    <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-8">
+    <div className="max-w-[1200px] w-full flex flex-col gap-6 md:gap-8 lg:gap-8">
       <h1 className="text-3xl font-libre font-bold text-gray-800 capitalize">
         {formattedCategory} News
       </h1>

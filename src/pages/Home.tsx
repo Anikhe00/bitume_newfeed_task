@@ -10,12 +10,14 @@ import type { Article } from "../interfaces";
 
 const categories = [
   "general",
+  "world",
+  "nation",
   "business",
-  "entertainment",
-  "health",
-  "science",
-  "sports",
   "technology",
+  "entertainment",
+  "sports",
+  "science",
+  "health",
 ];
 
 const Home = () => {
@@ -45,7 +47,7 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-8">
+    <div className="max-w-[1200px] w-full flex flex-col gap-6 md:gap-8 lg:gap-8">
       <Search
         placeholder="Search for news, topics..."
         className="h-12 md:h-12 lg:h-13 border border-gray-200 bg-white"
