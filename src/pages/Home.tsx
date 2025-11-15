@@ -108,10 +108,17 @@ const Home = () => {
         ) : (
           <>
             {/* Trending News */}
-            <TrendingCard
-              article={trendingArticle || articles[0]}
-              onClick={() => console.log("Read More Clicked")}
-            />
+            <Link
+              to={`/article/${encodeURIComponent(
+                trendingArticle?.url || articles[0].url
+              )}`}
+              state={{ article: trendingArticle || articles[0], articles }}
+            >
+              <TrendingCard
+                article={trendingArticle || articles[0]}
+                onClick={() => {}}
+              />
+            </Link>
 
             {/* Recent Articles */}
             <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">

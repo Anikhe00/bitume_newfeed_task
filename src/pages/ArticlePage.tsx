@@ -3,11 +3,16 @@ import ArticleCard from "../components/ArticleCard";
 import { useLocation } from "react-router-dom";
 import type { Article } from "../interfaces";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const ArticlePage = () => {
   const location = useLocation();
   const article = location.state?.article as Article | null;
   const articles = location.state?.articles as Article[] | null;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [article]);
 
   const otherArticles = articles?.filter((a) => a.url !== article?.url) || [];
 
