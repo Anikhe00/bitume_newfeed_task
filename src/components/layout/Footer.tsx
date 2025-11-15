@@ -4,9 +4,9 @@ import NavLink from "../NavLink";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col px-8 py-8 gap-4 w-full h-auto items-center justify-center bg-gray-50 border-t border-gray-100">
+    <footer className="flex flex-col px-6 md:px-8 lg:px-10 py-8 gap-4 w-full h-auto items-center justify-center bg-gray-50 border-t border-gray-100">
       <Logo />
-      <nav className="flex gap-5 items-center justify-center">
+      <nav className="flex flex-wrap gap-4 md:gap-5 lg:gap-5 items-center justify-center">
         {NavigationData.map((item) => (
           <NavLink key={item.name} to={item.href}>
             {item.name}

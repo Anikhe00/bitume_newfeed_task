@@ -13,7 +13,7 @@ const ArticleContent = ({ article }: { article: Article }) => {
           <span>/</span>
           <span>{article.source.name}</span>
         </div>
-        <h1 className="text-6xl leading-[110%] font-libre font-bold text-gray-800">
+        <h1 className="lg:text-6xl md:text-6xl text-3xl leading-[120%] font-libre font-bold text-gray-800">
           {article.title}
         </h1>
         <p className="text-gray-600 font-libre text-sm font-medium">
@@ -28,10 +28,10 @@ const ArticleContent = ({ article }: { article: Article }) => {
           <img
             src={article.urlToImage}
             alt={article.title}
-            className="w-full h-120 object-cover rounded-lg"
+            className="w-full h-70 md:h-90 lg:h-120 object-cover rounded-lg"
           />
         ) : (
-          <div className="w-full h-120 flex bg-blue-500 rounded-md"></div>
+          <div className="w-full h-70 md:h-90 lg:h-120 flex bg-blue-500 rounded-md"></div>
         )}
       </div>
 

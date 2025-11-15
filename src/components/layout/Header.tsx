@@ -4,13 +4,14 @@ import Search from "../Search";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import avatar from "../../assets/avatar.jpg";
 import NavigationData from "../../utils/NavigationList";
+import { CgMenuLeftAlt } from "react-icons/cg";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 flex px-8 py-4 w-full h-auto items-center justify-space-between bg-gray-50 border-b border-gray-200">
+    <header className="sticky top-0 z-50 flex px-5 md:px-8 lg:px-10 py-4 w-full h-auto items-center justify-space-between bg-gray-50 border-b border-gray-200">
       <div className="flex gap-6 w-full h-auto items-center justify-start">
         <Logo />
-        <nav className="flex gap-5 items-center justify-center">
+        <nav className="hidden lg:flex gap-5 items-center justify-center">
           {NavigationData.map((item) => (
             <NavLink key={item.name} to={item.href}>
               {item.name}
@@ -19,7 +20,7 @@ const Header = () => {
         </nav>
       </div>
 
-      <div className="w-[480px] h-auto flex items-center justify-center gap-4 ">
+      <div className="hidden w-[480px] h-auto lg:flex items-center justify-center gap-4 ">
         <Search placeholder="Search" />
         <IoMdNotificationsOutline className="text-2xl text-gray-600" />
         {/* Avatar */}
@@ -30,6 +31,10 @@ const Header = () => {
             alt="avatar"
           />
         </div>
+      </div>
+
+      <div className="lg:hidden flex items-center justify-center">
+        <CgMenuLeftAlt className="text-2xl text-gray-600" />
       </div>
     </header>
   );

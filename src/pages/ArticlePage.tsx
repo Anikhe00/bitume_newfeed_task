@@ -42,10 +42,10 @@ const ArticlePage = () => {
       {/* Related Articles */}
       {article && (
         <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
-          <h2 className="text-2xl font-libre font-bold text-gray-800">
+          <h2 className="lg:text-2xl md:text-xl text-lg font-libre font-bold text-gray-800">
             Related Articles
           </h2>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {relatedArticles.map((a) => (
               <Link
                 to={`/article/${encodeURIComponent(a.url)}`}

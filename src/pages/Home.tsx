@@ -81,11 +81,11 @@ const Home = () => {
     (article) => article !== trendingArticle
   );
   return (
-    <div className="w-full h-auto flex flex-col gap-8 items-start justify-start">
+    <div className="w-full h-auto flex flex-col gap-6 md:gap-8 lg:gap-8 items-start justify-start">
       {/* Search Bar */}
       <Search
         placeholder="Search for news, topics..."
-        className="h-13 border border-gray-200 bg-white"
+        className="h-12 md:h-12 lg:h-13 border border-gray-200 bg-white"
         onSearch={handleSearch}
       />
 
@@ -122,11 +122,11 @@ const Home = () => {
 
             {/* Recent Articles */}
             <div className="w-full h-auto flex flex-col gap-6 items-start justify-start">
-              <h2 className="text-2xl font-libre font-bold text-gray-800">
+              <h2 className="lg:text-2xl md:text-xl text-lg font-libre font-bold text-gray-800">
                 Recent Articles
               </h2>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6">
                 {newsArticles.map((article, index) => (
                   <Link
                     to={`/article/${encodeURIComponent(article.url)}`}

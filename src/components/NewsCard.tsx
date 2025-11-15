@@ -5,12 +5,12 @@ const NewsCard = ({ article }: { article: Article }) => {
     <article className="group w-full h-auto flex flex-col gap-3 cursor-pointer">
       {article.urlToImage ? (
         <img
-          className="w-full h-60 object-cover rounded-md"
+          className="w-full h-50 md:h-60 lg:h-60 object-cover rounded-md"
           src={article.urlToImage}
           alt={article.title}
         />
       ) : (
-        <div className="w-full h-60 flex items-center justify-center bg-gray-200 rounded-md">
+        <div className="w-full h-50 md:h-60 lg:h-60 flex items-center justify-center font-libre font-bold text-gray-600 bg-gray-200 rounded-md">
           No Image
         </div>
       )}
